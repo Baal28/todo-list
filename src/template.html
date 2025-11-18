@@ -6,6 +6,40 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Hola Mundo!</h1>
+    <div id="app-container">
+        <header id="app-header">
+            <h1>📝 Task Manager</h1>
+            <div id="task-stats">
+                <p>You have <span id="pending-count">0</span> tasks pending.</p>
+            </div>
+        </header>
+
+        <main id="main-content">
+
+            <section id="input-section">
+                <h2>Add New Task</h2>
+                <form id="task-form">
+                    <input 
+                    type="text" 
+                    name="title" 
+                    placeholder="Add a new task..."
+                    aria-label="New Task Title"
+                    required>
+
+                    <button type="submit">Add Task</button>
+                </form>
+            </section>
+
+            <hr>
+
+            <section id="task-list-section">
+                <h2>Your To-Dos</h2>
+                <ul id="task-list-root"></ul>
+            </section>
+        </main>
+    </div>
+    
+
+    <ul id="task-list-root"></ul>
 </body>
 </html>

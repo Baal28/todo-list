@@ -2,19 +2,40 @@
 import { TaskItemView } from "./TaskItemView";
 
 export class TaskListView {
-    constructor(taskManager, rootElement) {
+    constructor(taskManager, rootElement, onDeleteCallback, onToggleCallback, countElement) {
         this.taskManager = taskManager;
         this.rootElement = rootElement;
+        this.onDeleteCallback = onDeleteCallback;
+        this.onToggleCallback = onToggleCallback;
+        this.countElement = countElement;
+        //this.bindClickEvents();
     }
 
     render(){
         const tasks = this.taskManager.getTasks();
         this.rootElement.innerHTML = '';
 
+        if (this.countElement) {
+            const pendingCount = this.taskManager.getPendingCount();
+            this.countElement.textContent = pendingCount;
+        }
+
         tasks.forEach((task) => {
-            const taskView = new TaskItemView(task);
+            const taskView = new TaskItemView(task,this.onDeleteCallback, this.onToggleCallback);
             const renderedView = taskView.render();
             this.rootElement.appendChild(renderedView);
         });
     }
+
+    /*bindClickEvents(){
+        this.rootElement.addEventListener('click', (e) => {
+            if (e.target.textContent === 'Delete') {
+                const listItem = e.target.closest('li');
+                if (listItem) {
+                    const taskId = listItem.id;
+                    this.onDeleteCallback(taskId);
+                }
+            }
+        })
+    }*/
 }

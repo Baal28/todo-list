@@ -27,6 +27,7 @@ export class TaskManager {
     deleteTask(id){
         // Filter the array to keep only tasks whose IDs DO NOT match the target ID
         this.tasks = this.tasks.filter(task => task.id !== id);
+        this.storage.saveTasks(this.tasks);
     }
 
     toggleCompletion(id){
@@ -35,6 +36,10 @@ export class TaskManager {
             taskToUpdate.toggleCompletion();
             this.storage.saveTasks(this.tasks);
         }
+    }
+
+    getPendingCount(){
+        return this.tasks.filter(task => !task.isComplete).length;
     }
 
     getTasks(){

@@ -1,5 +1,143 @@
 /* styles.css */
-body {
-  background-color: rebeccapurple;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7f6; /* Light gray background */
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+}
+
+/* Main App Container Styling */
+#app-container {
+    width: 100%;
+    max-width: 700px; /* Max width for readability */
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+h1 {
+    color: #333;
+    font-size: 2.2em;
+    margin-bottom: 5px;
+}
+
+h2 {
+    color: #555;
+    font-size: 1.4em;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 25px 0;
+}
+
+/* Input Section Styling */
+#task-form {
+    display: flex;
+    gap: 10px;
+}
+
+#task-form input[type="text"] {
+    flex-grow: 1; /* Input takes up available space */
+    padding: 12px 15px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+#task-form input[type="text"]:focus {
+    border-color: #007bff; /* Focus color */
+    outline: none;
+}
+
+#task-form button {
+    padding: 12px 25px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s;
+}
+
+#task-form button:hover {
+    background-color: #0056b3;
+}
+
+/* List Container */
+#task-list-root {
+    list-style: none; /* Remove bullet points */
+    padding: 0;
+}
+
+#task-list-root li {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    font-size: 1.1em;
+}
+
+#task-list-root li.completed .task-title-container{
+    background-color: #e6ffe6; /* Light green */
+    color: #888;
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+#task-list-root li input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin: 0px;
+    cursor: pointer;
+}
+
+#task-list-root li button {
+    padding: 6px 12px;
+    background-color: #dc3545; /* Red color */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    justify-self: end;
+    transition: background-color 0.2s;
+}
+
+.task-controls {
+    grid-column: 2 / 3; /* Places the container in the rightmost column */
+    display: flex; /* Use flexbox to align the checkbox and button inside this container */
+    align-items: center;
+    gap: 10px; /* Space between checkbox and button */
+}
+
+.task-title-container{
+  grid-column: 1 / 2;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+#task-list-root li button:hover {
+    background-color: #c82333;
+}
