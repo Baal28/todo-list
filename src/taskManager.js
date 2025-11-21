@@ -14,14 +14,28 @@ export class TaskManager {
         this.tasks = loadedData.map(data => Task.fromData(data));
     }
 
-    addTask(title){
+    addTask(title, priority, dueDate){
         if (!title) {
             return;
         }
-        const newTask = new Task(title);
+        const newTask = new Task(title, priority, dueDate);
         this.tasks.push(newTask);
         this.storage.saveTasks(this.tasks);
         return newTask;
+    }
+
+    updateTask(id, newTitle, newPriority, newDueDate){
+        const taskToUpdate = this.tasks.find(task => task.id === id);
+
+        if (taskToUpdate) {
+            taskToUpdate.title = newTitle;
+            taskToUpdate.priority = newPriority;
+            taskToUpdate.dueDate = newDueDate;
+
+            this.storage.saveTasks(this.tasks);
+            return taskToUpdate
+        }
+        return null
     }
 
     deleteTask(id){

@@ -2,12 +2,15 @@
 import { TaskItemView } from "./TaskItemView";
 
 export class TaskListView {
-    constructor(taskManager, rootElement, onDeleteCallback, onToggleCallback, countElement) {
+    constructor(taskManager, rootElement, onDeleteCallback, onToggleCallback, countElement, onUpdateCallback, onRenderNeededCallback, taskController) {
         this.taskManager = taskManager;
         this.rootElement = rootElement;
         this.onDeleteCallback = onDeleteCallback;
         this.onToggleCallback = onToggleCallback;
         this.countElement = countElement;
+        this.onUpdateCallback = onUpdateCallback;
+        this.onRenderNeededCallback = onRenderNeededCallback;
+        this.taskController = taskController;
         //this.bindClickEvents();
     }
 
@@ -21,7 +24,14 @@ export class TaskListView {
         }
 
         tasks.forEach((task) => {
-            const taskView = new TaskItemView(task,this.onDeleteCallback, this.onToggleCallback);
+            const taskView = new TaskItemView(
+                task,
+                this.onDeleteCallback,
+                this.onToggleCallback,
+                this.onUpdateCallback,
+                this.onRenderNeededCallback,
+                this.taskController);
+
             const renderedView = taskView.render();
             this.rootElement.appendChild(renderedView);
         });

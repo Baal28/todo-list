@@ -64,6 +64,32 @@ hr {
     outline: none;
 }
 
+#priority{
+    padding: 5px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+#priority:focus{
+    border-color: #007bff; /* Focus color */
+    outline: none;
+}
+
+#date{
+    padding: 5px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+#date:focus{
+    border-color: #007bff; /* Focus color */
+    outline: none;
+}
+
 #task-form button {
     padding: 12px 25px;
     background-color: #007bff;
@@ -111,18 +137,20 @@ hr {
     height: 20px;
     margin: 0px;
     cursor: pointer;
+    flex-shrink: 0; 
+    align-self: center;
 }
 
 #task-list-root li button {
-    padding: 6px 12px;
-    background-color: #dc3545; /* Red color */
-    color: white;
+   cursor: pointer;
     border: none;
     border-radius: 6px;
-    cursor: pointer;
     font-weight: bold;
-    justify-self: end;
+    height: 32px; /* Ensures consistent button height */
+    line-height: 1.2;
     transition: background-color 0.2s;
+    padding: 6px 12px; /* Ensure padding is always applied */
+    color: white;
 }
 
 .task-controls {
@@ -134,10 +162,71 @@ hr {
 
 .task-title-container{
   grid-column: 1 / 2;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+    min-width: 0;
+    
+    /* ⬇️ CRITICAL FIX: Add the layout properties back ⬇️ */
+    display: flex;
+    flex-wrap: wrap; /* Allows metadata to wrap */
+    align-items: center;
+    gap: 10px; /* Space between items */
+
+  
 }
 
-#task-list-root li button:hover {
+.btn-del{
+    background-color: #dc3545; /* Red color */
+}
+
+.btn-del:hover {
     background-color: #c82333;
+}
+
+/* Base style for metadata elements */
+.task-priority,
+.task-due-date {
+    font-size: 0.85em;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+/* Priority Colors */
+.priority-high {
+    background-color: #ffe0e0; /* Very light red */
+    color: #cc0000; /* Dark red text */
+    border: 1px solid #cc0000;
+}
+
+.priority-medium {
+    background-color: #fff8e1; /* Very light yellow */
+    color: #ff9900; /* Orange text */
+    border: 1px solid #ff9900;
+}
+
+.priority-low {
+    background-color: #e0f2f1; /* Very light teal */
+    color: #00897b; /* Dark teal text */
+    border: 1px solid #00897b;
+}
+
+/* Due Date Styling */
+.task-due-date {
+    background-color: #f0f0f0;
+    color: #666;
+    font-weight: normal;
+}
+
+/* Ensure completed tasks dim the metadata */
+#task-list-root li.completed .task-priority,
+#task-list-root li.completed .task-due-date {
+    opacity: 0.5;
+}
+
+ .btn-edit {
+    background-color: #007bff; /* Use a distinct color for Edit */
+}
+
+.btn-edit:hover {
+    background-color: #0056b3;
 }

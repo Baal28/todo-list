@@ -6,10 +6,11 @@ export class TaskController {
     constructor(taskManager, taskListView) {
         this.taskManager = taskManager;
         this.taskListView = taskListView;
-        this.bindEvents();
+        this.editingTaskId = null;
     }
 
     init(){
+        this.bindEvents();
         this.taskListView.render();
     }
 
@@ -22,8 +23,27 @@ export class TaskController {
     }
 
     handleAddTodo(e){
-        this.taskManager.addTask(e.target.elements.title.value);
+        const title = e.target.elements.title.value;
+        const priority = e.target.elements.priority.value;
+        const dueDate = e.target.elements.dueDate.value;
+
+        this.taskManager.addTask(title, priority, dueDate);
+
         e.target.elements.title.value = '';
+        this.taskListView.render();
+    }
+
+    handleUpdateTask(id, newTitle, newPriority, newDueDate){
+        if (!newTitle) {
+            return;
+        }
+        this.taskManager.updateTask(id, newTitle, newPriority, newDueDate);
+        this.editingTaskId = null;
+        this.taskListView.render();
+    }
+
+    triggerRender(id = null){
+        this.editingTaskId = id;
         this.taskListView.render();
     }
 

@@ -29,10 +29,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. GET THE HANDLER METHOD
     //    (The controller instance exists now, so we can access its methods)
     const deleteHandler = taskController.handleDeleteTodo.bind(taskController);
-    const toggleHandler = taskController.handleToggleCompletion.bind(taskController)
+    const toggleHandler = taskController.handleToggleCompletion.bind(taskController);
+    const updateHandler = taskController.handleUpdateTask.bind(taskController);
+    const renderHandler = taskController.triggerRender.bind(taskController);
 
     // 4. FULLY INSTANTIATE THE LIST VIEW
-    const taskListView = new TaskListView(taskManager, listRoot, deleteHandler, toggleHandler, countRoot);
+    const taskListView = new TaskListView(
+        taskManager,
+        listRoot, 
+        deleteHandler, 
+        toggleHandler, 
+        countRoot, 
+        updateHandler, 
+        renderHandler,
+        taskController);
 
     // 5. FINALIZE THE CONTROLLER'S DEPENDENCY
     taskController.taskListView = taskListView;
