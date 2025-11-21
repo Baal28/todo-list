@@ -15,7 +15,8 @@ export class TaskListView {
     }
 
     render(){
-        const tasks = this.taskManager.getTasks();
+        //const tasks = this.taskManager.getTasks();
+        const tasks = this.taskController.getFilteredTasks();
         this.rootElement.innerHTML = '';
 
         if (this.countElement) {

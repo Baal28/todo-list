@@ -56,7 +56,31 @@ export class TaskManager {
         return this.tasks.filter(task => !task.isComplete).length;
     }
 
-    getTasks(){
-        return this.tasks;
+    getTasks(filter = 'Inbox'){
+        let filteredTasks = this.tasks;
+        const today = new Date();
+        today.setHours(0,0,0,0);
+
+        if (filter === 'Today') {
+            filteredTasks = this.tasks.filter(task => {
+                if (!task.dueDate) return false;
+                const taskDate = new Date(task.dueDate);
+                taskDate.setHours(0, 0, 0, 0);
+
+                return taskDate.toDateString() === today.toDateString();
+            });
+        } else if (filter === 'This Week') {
+            filteredTasks = this.tasks.filter(task => {
+                if (!task.dueDate) return false;
+                const taskDate = new Date(task.dueDate);
+
+                // Basic logic: task is due between now and 7 days from now
+                const oneWeekFromNow = new Date();
+                oneWeekFromNow.setDate(oneWeekFromNow.getDate() + 7);
+
+                return taskDate >= today && taskDate <= oneWeekFromNow;
+            });
+        }
+        return filteredTasks;
     }
 }

@@ -1,4 +1,6 @@
-/* styles.css */
+/* styles.css - Option 1: Clean & Modern Layout */
+
+/* Base Reset & Body Styling */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,227 +8,379 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f7f6; /* Light gray background */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #F6F7EB; /* Main light background */
+    color: #393E41; /* Default text color */
+    display: flex; /* Use flex to create sidebar + main layout */
+    min-height: 100vh; /* Full viewport height */
+}
+
+/* -------------------- Sidebar Styling (Left Column) -------------------- */
+#sidebar {
+    width: 250px; /* Fixed width for sidebar */
+    background-color: #393E41; /* Dark grey sidebar background */
+    color: #F6F7EB; /* Light text on dark background */
+    padding: 25px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
-    justify-content: center;
-    padding: 30px;
+    flex-direction: column;
 }
 
-/* Main App Container Styling */
-#app-container {
-    width: 100%;
-    max-width: 700px; /* Max width for readability */
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    padding: 30px;
+#sidebar h1 {
+    font-size: 1.8em;
+    margin-bottom: 30px;
+    color: #F6F7EB;
 }
 
-h1 {
-    color: #333;
-    font-size: 2.2em;
-    margin-bottom: 5px;
+#sidebar .nav-section {
+    margin-bottom: 30px;
 }
 
-h2 {
-    color: #555;
-    font-size: 1.4em;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
-    margin-top: 25px;
+#sidebar .nav-section h2 {
+    font-size: 1.1em;
+    color: rgba(246, 247, 235, 0.7); /* Lighter grey for section titles */
+    border-bottom: 1px solid rgba(246, 247, 235, 0.2);
+    padding-bottom: 8px;
     margin-bottom: 15px;
 }
 
-hr {
-    border: none;
-    border-top: 1px solid #eee;
-    margin: 25px 0;
+#sidebar ul {
+    list-style: none;
+    padding: 0;
 }
 
-/* Input Section Styling */
+#sidebar ul li {
+    margin-bottom: 10px;
+}
+
+#sidebar ul li a {
+    color: #F6F7EB;
+    text-decoration: none;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 6px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+#sidebar ul li a i { /* For icons if you add them */
+    font-size: 1.2em;
+}
+
+#sidebar ul li a:hover {
+    background-color: rgba(246, 247, 235, 0.1); /* Light hover effect */
+}
+
+/* Project Specific Styling */
+#sidebar ul.project-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 15px; /* Indent projects slightly */
+}
+
+#sidebar ul.project-list li span {
+    flex-grow: 1;
+    color: #F6F7EB;
+    padding: 8px 0;
+}
+
+#sidebar ul.project-list li button.delete-project-btn {
+    background-color: transparent;
+    color: rgba(246, 247, 235, 0.5);
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    border-radius: 4px;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+#sidebar ul.project-list li button.delete-project-btn:hover {
+    color: #F6F7EB;
+    background-color: rgba(246, 247, 235, 0.2);
+}
+
+
+/* -------------------- Main Content Area Styling (Right Column) -------------------- */
+#app-container { 
+    flex-grow: 1; /* Takes remaining space */
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between header/form and list */
+}
+
+/* Add Task Form Styling */
 #task-form {
     display: flex;
     gap: 10px;
-}
-
-#task-form input[type="text"] {
-    flex-grow: 1; /* Input takes up available space */
-    padding: 12px 15px;
-    border: 2px solid #ccc;
+    background-color: #ffffff; /* White background for the form itself */
+    padding: 15px;
     border-radius: 8px;
-    font-size: 1em;
-    transition: border-color 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-#task-form input[type="text"]:focus {
-    border-color: #007bff; /* Focus color */
+#task-form input[type="text"],
+#task-form select,
+#task-form input[type="date"] {
+    flex-grow: 1;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.95em;
+    color: #393E41;
+}
+#task-form input[type="text"]:focus,
+#task-form select:focus,
+#task-form input[type="date"]:focus {
+    border-color: #557A95; /* A subtle blue accent for focus */
     outline: none;
 }
-
-#priority{
-    padding: 5px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    font-size: 1em;
-    transition: border-color 0.3s;
-}
-
-#priority:focus{
-    border-color: #007bff; /* Focus color */
-    outline: none;
-}
-
-#date{
-    padding: 5px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    font-size: 1em;
-    transition: border-color 0.3s;
-}
-
-#date:focus{
-    border-color: #007bff; /* Focus color */
-    outline: none;
-}
-
 #task-form button {
-    padding: 12px 25px;
-    background-color: #007bff;
+    padding: 10px 20px;
+    background-color: #557A95; /* A moderate blue for action buttons */
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 0.95em;
     transition: background-color 0.2s;
 }
-
 #task-form button:hover {
-    background-color: #0056b3;
+    background-color: #436587;
 }
 
-/* List Container */
+/* Task List Styling */
 #task-list-root {
-    list-style: none; /* Remove bullet points */
+    list-style: none;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 #task-list-root li {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr auto; /* Title/Metadata | Controls */
     align-items: center;
     gap: 15px;
-    padding: 15px 20px;
-    margin-bottom: 10px;
-    background-color: #fff;
-    border: 1px solid #ddd;
+    padding: 12px 15px;
+    background-color: #ffffff; /* White background for task cards */
     border-radius: 8px;
-    transition: background-color 0.2s, box-shadow 0.2s;
-    font-size: 1.1em;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-left: 5px solid transparent; /* For priority indication */
+    font-size: 0.95em;
+    color: #393E41;
+}
+#task-list-root li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-#task-list-root li.completed .task-title-container{
-    background-color: #e6ffe6; /* Light green */
-    color: #888;
-    text-decoration: line-through;
-    opacity: 0.7;
-}
-
-#task-list-root li input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    margin: 0px;
-    cursor: pointer;
-    flex-shrink: 0; 
-    align-self: center;
-}
-
-#task-list-root li button {
-   cursor: pointer;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    height: 32px; /* Ensures consistent button height */
-    line-height: 1.2;
-    transition: background-color 0.2s;
-    padding: 6px 12px; /* Ensure padding is always applied */
-    color: white;
-}
-
-.task-controls {
-    grid-column: 2 / 3; /* Places the container in the rightmost column */
-    display: flex; /* Use flexbox to align the checkbox and button inside this container */
-    align-items: center;
-    gap: 10px; /* Space between checkbox and button */
-}
-
-.task-title-container{
-  grid-column: 1 / 2;
-    min-width: 0;
-    
-    /* ⬇️ CRITICAL FIX: Add the layout properties back ⬇️ */
+/* Task Title and Metadata Container */
+.task-title-container {
     display: flex;
-    flex-wrap: wrap; /* Allows metadata to wrap */
+    flex-wrap: wrap;
     align-items: center;
-    gap: 10px; /* Space between items */
-
-  
+    gap: 8px; /* Space between priority, date, and title */
+    color: #393E41;
 }
 
-.btn-del{
-    background-color: #dc3545; /* Red color */
+.task-title-container span { /* The actual task title text */
+    flex-basis: 100%; /* Makes the title itself take full width if wrapped */
+    font-weight: 500;
+    order: 3; /* Places the title after priority and date */
 }
 
-.btn-del:hover {
-    background-color: #c82333;
-}
-
-/* Base style for metadata elements */
 .task-priority,
 .task-due-date {
-    font-size: 0.85em;
+    font-size: 0.75em;
     font-weight: bold;
-    padding: 2px 6px;
+    padding: 3px 7px;
     border-radius: 4px;
     text-transform: uppercase;
+    order: 1; /* Places priority first */
 }
-
-/* Priority Colors */
-.priority-high {
-    background-color: #ffe0e0; /* Very light red */
-    color: #cc0000; /* Dark red text */
-    border: 1px solid #cc0000;
-}
-
-.priority-medium {
-    background-color: #fff8e1; /* Very light yellow */
-    color: #ff9900; /* Orange text */
-    border: 1px solid #ff9900;
-}
-
-.priority-low {
-    background-color: #e0f2f1; /* Very light teal */
-    color: #00897b; /* Dark teal text */
-    border: 1px solid #00897b;
-}
-
-/* Due Date Styling */
 .task-due-date {
-    background-color: #f0f0f0;
-    color: #666;
+    order: 2; /* Places date second */
     font-weight: normal;
+    background-color: #E0E0E0; /* Light grey background */
+    color: #666;
 }
 
-/* Ensure completed tasks dim the metadata */
+/* Priority Colors (for left border and text) */
+.priority-high {
+    border-color: #E74C3C; /* Red */
+    background-color: #FDE8E8;
+    color: #E74C3C;
+}
+.priority-medium {
+    border-color: #F1C40F; /* Yellow */
+    background-color: #FFFDE8;
+    color: #F1C40F;
+}
+.priority-low {
+    border-color: #2ECC71; /* Green */
+    background-color: #E8FDEE;
+    color: #2ECC71;
+}
+
+/* Completion Styles */
+#task-list-root li.completed {
+    opacity: 0.7;
+    background-color: #f8f8f8;
+    border-left-color: #ccc;
+}
+#task-list-root li.completed .task-title-container span {
+    text-decoration: line-through;
+    color: #888;
+}
 #task-list-root li.completed .task-priority,
 #task-list-root li.completed .task-due-date {
-    opacity: 0.5;
+    opacity: 0.6;
 }
 
- .btn-edit {
-    background-color: #007bff; /* Use a distinct color for Edit */
+/* Controls Group (Checkbox, Edit, Delete) */
+.task-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between control elements */
+}
+.task-controls input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+.task-controls button {
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.85em;
+    transition: background-color 0.2s;
+    height: 32px; /* Consistent height */
+    line-height: 1.2;
+    white-space: nowrap; /* Prevent buttons from wrapping text */
 }
 
+/* Specific Button Styles (Overrides general button styles) */
+.btn-edit {
+    background-color: #557A95; /* Blue for Edit */
+    color: white;
+    border: none;
+}
 .btn-edit:hover {
-    background-color: #0056b3;
+    background-color: #436587;
+}
+.btn-del {
+    background-color: #E74C3C; /* Red for Delete */
+    color: white;
+    border: none;
+}
+.btn-del:hover {
+    background-color: #C0392B;
+}
+
+/* Edit Form Specific Styles */
+#task-list-root li.editing-mode {
+    border-left: 5px solid #557A95; /* Accent border for editing mode */
+    padding: 10px 15px; /* Adjust padding for form elements */
+}
+.task-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+.edit-input-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.edit-input-group input[type="text"],
+.edit-input-group select,
+.edit-input-group input[type="date"] {
+    flex-grow: 1;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+.edit-button-group {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    gap: 8px;
+}
+.edit-button-group button {
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+.btn-save {
+    background-color: #2ECC71; /* Green for Save */
+    color: white;
+}
+.btn-save:hover {
+    background-color: #27AE60;
+}
+.btn-cancel {
+    background-color: #95A5A6; /* Grey for Cancel */
+    color: white;
+}
+.btn-cancel:hover {
+    background-color: #7F8C8D;
+}
+
+/* Sidebar Styling: Add Project Button */
+#add-project-btn {
+    /* Layout */
+    display: block; /* Make it take the full width available */
+    width: 100%;
+    margin-top: 10px;
+    
+    /* Appearance */
+    background-color: transparent; /* Start with no background */
+    color: #F6F7EB; /* Light text color */
+    border: 1px solid rgba(246, 247, 235, 0.3); /* Subtle light border */
+    padding: 8px 15px;
+    border-radius: 6px;
+    text-align: left;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+#add-project-btn:hover {
+    background-color: rgba(246, 247, 235, 0.1); /* Light background on hover */
+    border-color: #F6F7EB; /* Solid light border on hover */
+}
+
+/* Pending Count Styling */
+#pending-count {
+    background-color: #F1C40F; /* Yellow */
+    color: #393E41;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+    align-self: flex-start; /* Align it to the left */
+}
+
+/* Optional: Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

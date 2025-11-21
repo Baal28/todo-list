@@ -3,23 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Todo App</title>
 </head>
 <body>
-    <div id="app-container">
-        <header id="app-header">
-            <h1>📝 Task Manager</h1>
-            <div id="task-stats">
-                <p>You have <span id="pending-count">0</span> tasks pending.</p>
-            </div>
-        </header>
+    <div id="sidebar">
+        <h1>Task Planner</h1>
+        <div class="nav-section">
+            <h2>Inbox</h2>
+            <ul>
+                <li><a href="#"><i class="fas fa-inbox"></i> Inbox</a></li>
+                <li><a href="#"><i class="fas fa-calendar-day"></i> Today</a></li>
+                <li><a href="#"><i class="fas fa-calendar-week"></i> This Week</a></li>
+            </ul>
+        </div>
+        <div class="nav-section">
+            <h2>PROJECTS</h2>
+            <button id="add-project-btn">Add Project</button>
+            <ul class="project-list">
+                <li><span>Car Repair</span> <button class="delete-project-btn">X</button></li>
+            </ul>
+        </div>
+    </div>
 
-        <main id="main-content">
-
-            <section id="input-section">
-                <h2>Add New Task</h2>
-                <form id="task-form">
-                    <input 
+    <div id="app-container"> <h1>Your Tasks</h1>
+        <form id="task-form">
+            <input 
                     type="text" 
                     name="title" 
                     placeholder="Add a new task..."
@@ -35,19 +43,13 @@
                     <input type="date" name="dueDate" id="date" aria-label="Task Due Date">
 
                     <button type="submit">Add Task</button>
-                </form>
-            </section>
-
-            <hr>
-
-            <section id="task-list-section">
-                <h2>Your To-Dos</h2>
-                <ul id="task-list-root"></ul>
-            </section>
-        </main>
+        </form>
+        <ul id="task-list-root">
+        
+        </ul>
+        <div id="task-stats">
+                <p>You have <span id="pending-count">0</span> tasks pending.</p>
+        </div>
     </div>
-    
-
-    <ul id="task-list-root"></ul>
 </body>
 </html>

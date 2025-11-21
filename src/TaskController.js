@@ -7,6 +7,7 @@ export class TaskController {
         this.taskManager = taskManager;
         this.taskListView = taskListView;
         this.editingTaskId = null;
+        this.currentFilter = 'Inbox';
     }
 
     init(){
@@ -19,6 +20,20 @@ export class TaskController {
         inputForm.addEventListener('submit', e =>{
             e.preventDefault();
             this.handleAddTodo(e);
+        });
+
+        const navLinks = document.querySelectorAll('#sidebar ul li a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Get the text from the link (Inbox, Today, etc.)
+                const filterName = e.target.textContent.trim();
+                this.setFilter(filterName);
+
+                // Optional: Add/remove 'active' class for visual feedback (CSS needed)
+                document.querySelector('#sidebar .active')?.classList.remove('active');
+                e.target.classList.add('active');
+            });
         });
     }
 
@@ -55,5 +70,15 @@ export class TaskController {
     handleToggleCompletion(id){
         this.taskManager.toggleCompletion(id);
         this.taskListView.render();
+    }
+
+    setFilter(filterName){
+        this.currentFilter = filterName;
+        this.editingTaskId = null;
+        this.taskListView.render();
+    }
+
+    getFilteredTasks(){
+        return this.taskManager.getTasks(this.currentFilter);
     }
 }
