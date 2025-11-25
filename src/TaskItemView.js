@@ -52,13 +52,24 @@ export class TaskItemView {
             dateSpan.textContent = `Due: ${this.task.dueDate}`;
         }
 
-        // 1.4 Create element for title
+        //1.4 Create element for Project Name
+        const projectSpan = document.createElement('span');
+        projectSpan.classList.add('task-project-name');
+
+        if (this.task.projectName) {
+            projectSpan.textContent = `[Project: ${this.task.projectName}]`;
+            projectSpan.classList.add('project-badge');
+        }
+        // 1.5 Create element for title
         const titleText = document.createElement('span');
         titleText.textContent = this.task.title;
 
-        //1.5 Append ALL elements to the container
+        //1.6 Append ALL elements to the container
         
         titleContainer.appendChild(prioritySpan);
+        if (this.task.projectName) {
+            titleContainer.appendChild(projectSpan);
+        }
         titleContainer.appendChild(dateSpan);
         titleContainer.appendChild(titleText);
     
@@ -78,11 +89,11 @@ export class TaskItemView {
             this.onDeleteCallback(this.task.id);
         });
 
-        //Create the Controls Group Container (Grid Column 2: Right side) ⬇️
+        //Create the Controls Group Container (Grid Column 2: Right side)
         const controlsGroup = document.createElement('div');
         controlsGroup.classList.add('task-controls'); // CSS uses this to apply Flexbox
 
-        // Create the new EDIT Button
+        // Create EDIT Button
         const editBtn = document.createElement('button');
         editBtn.textContent = 'Edit';
         editBtn.classList.add('btn-edit');
@@ -153,7 +164,7 @@ export class TaskItemView {
         prioritySelect.setAttribute('name', 'priority');
         prioritySelect.classList.add('edit-input-priority');
 
-        // Options mapping (must match your Task Model setup)
+        // Options mapping
         const priorities = ['Low', 'Medium', 'High'];
         priorities.forEach(p => {
             const option = document.createElement('option');
@@ -195,7 +206,7 @@ export class TaskItemView {
             const newDueDate = e.target.elements.dueDate.value;
             const newProjectName = projectSelect.value;
         
-            // 🚨 CRITICAL: Call the Controller's update handler
+            // Call the Controller's update handler
             this.onUpdateCallback(this.task.id, newTitle, newPriority, newDueDate, newProjectName);
 
             // Reset the view state after save is initiated

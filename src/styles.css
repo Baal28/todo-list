@@ -84,6 +84,7 @@ body {
     flex-grow: 1;
     color: #F6F7EB;
     padding: 8px 0;
+    cursor: pointer;
 }
 
 #sidebar ul.project-list li button.delete-project-btn {
@@ -197,7 +198,8 @@ body {
 }
 
 .task-priority,
-.task-due-date {
+.task-due-date,
+.project-badge {
     font-size: 0.75em;
     font-weight: bold;
     padding: 3px 7px;
@@ -210,6 +212,12 @@ body {
     font-weight: normal;
     background-color: #E0E0E0; /* Light grey background */
     color: #666;
+}
+
+.project-badge{
+    border-color: #E9B872;
+    background-color: #e9c49077;
+    color: #E9B872;
 }
 
 /* Priority Colors (for left border and text) */
@@ -369,6 +377,7 @@ body {
     margin-top: 20px;
     align-self: flex-start; /* Align it to the left */
 }
+
 
 /* Optional: Scrollbar Styling */
 ::-webkit-scrollbar {

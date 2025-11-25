@@ -6,7 +6,7 @@ export class TaskManager {
     constructor(storageService) {
         this.tasks = [];
         this.storage = storageService;
-        this.projects = this.storage.loadProjects() || ['Car Repair']
+        this.projects = this.storage.loadProjects() || []
         this.loadAllTasks();
     }
 
@@ -117,6 +117,8 @@ export class TaskManager {
         } else if (filter === 'Inbox') { // ⬅️ Handle Inbox specifically
             // Inbox shows tasks with no assigned project
             filteredTasks = this.tasks.filter(task => !task.projectName);
+        } else if (filter === 'All Tasks') {
+            filteredTasks = this.tasks;
         } 
             // This handles all other filters (which we assume are Project Names)
         else { 
@@ -126,28 +128,28 @@ export class TaskManager {
         }
         const priorityOrder = { 'High': 3, 'Medium': 2, 'Low': 1 };
 
-    return filteredTasks.sort((a, b) => {
-        // --- 1. Primary Sort: Priority (Descending) ---
-        const priorityA = priorityOrder[a.priority] || 0;
-        const priorityB = priorityOrder[b.priority] || 0;
+        return filteredTasks.sort((a, b) => {
+            // --- 1. Primary Sort: Priority (Descending) ---
+            const priorityA = priorityOrder[a.priority] || 0;
+            const priorityB = priorityOrder[b.priority] || 0;
 
-        // If priorities are different, sort by priority (e.g., High comes before Medium)
-        if (priorityB !== priorityA) {
-            return priorityB - priorityA; 
-        }
+            // If priorities are different, sort by priority (e.g., High comes before Medium)
+            if (priorityB !== priorityA) {
+                return priorityB - priorityA; 
+            }
 
-        // --- 2. Secondary Sort: Due Date (Ascending - Soonest first) ---
-        const dateA = a.dueDate ? new Date(a.dueDate).getTime() : Infinity;
-        const dateB = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
-        
-        // If dates are different, sort by date (e.g., Jan 1 comes before Jan 5)
-        if (dateA !== dateB) {
-            // Subtracting Date B from Date A gives tasks due sooner a negative result, pushing them up.
-            return dateA - dateB;
-        }
+            // --- 2. Secondary Sort: Due Date (Ascending - Soonest first) ---
+            const dateA = a.dueDate ? new Date(a.dueDate).getTime() : Infinity;
+            const dateB = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
+            
+            // If dates are different, sort by date (e.g., Jan 1 comes before Jan 5)
+            if (dateA !== dateB) {
+                // Subtracting Date B from Date A gives tasks due sooner a negative result, pushing them up.
+                return dateA - dateB;
+            }
 
-        // --- 3. Tertiary Sort: No difference (Maintain original order) ---
-        return 0; 
-    });
+            // --- 3. Tertiary Sort: No difference (Maintain original order) ---
+            return 0; 
+        });
     }
 }

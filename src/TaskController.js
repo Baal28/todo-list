@@ -7,19 +7,21 @@ export class TaskController {
         this.taskManager = taskManager;
         this.taskListView = taskListView;
         this.editingTaskId = null;
-        this.currentFilter = 'Inbox';
+        this.currentFilter = 'All Tasks';
     }
 
     init(){
         this.bindEvents();
         this.renderSidebar();
         this.renderProjectDropdown();
-        this.taskListView.render();
+        this.setFilter(this.currentFilter);
+        
     }
 
     handleProjectListClick = (e) => {
-        const target = e.target;
         e.preventDefault();
+        const target = e.target;
+        
 
         if (target.tagName === 'SPAN') {
             const projectName = target.textContent.trim();
@@ -66,8 +68,7 @@ export class TaskController {
             select.appendChild(option);
         });
 
-        // 5. Inject the select element into the form (adjust selector as needed)
-        // Find a logical place, e.g., before the 'Add' button.
+        // 5. Inject the select element into the form.
         const addButton = taskForm.querySelector('button');
         if (addButton) {
             taskForm.insertBefore(select, addButton);
@@ -83,7 +84,7 @@ export class TaskController {
             this.handleAddTodo(e);
         });
 
-        const navLinks = document.querySelectorAll('#sidebar ul li a');
+        const navLinks = document.querySelectorAll('#sidebar ul li a, #sidebar ul.project-list li span');
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -91,9 +92,9 @@ export class TaskController {
                 const filterName = e.target.textContent.trim();
                 this.setFilter(filterName);
 
-                // Optional: Add/remove 'active' class for visual feedback (CSS needed)
+                /* Optional: Add/remove 'active' class for visual feedback (CSS needed)
                 document.querySelector('#sidebar .active')?.classList.remove('active');
-                e.target.classList.add('active');
+                e.target.classList.add('active');*/
             });
         });
 
@@ -102,6 +103,7 @@ export class TaskController {
 
         const projectList = document.querySelector('.project-list');
         projectList.addEventListener('click', this.handleProjectListClick);
+
     }
 
     handleAddProject = () => {
@@ -119,36 +121,6 @@ export class TaskController {
         }
     }
 
-    handleUpdateTask(id, newTitle, newPriority, newDueDate, newProjectName){
-        if (!newTitle) {
-            return;
-        }
-        
-        // 1. Perform the update
-        this.taskManager.updateTask(id, newTitle, newPriority, newDueDate, newProjectName);
-        
-        // 2. Clear editing state
-        this.editingTaskId = null;
-
-        // 3. Contextual Filter Check (NEW LOGIC)
-        // If the user is currently viewing a specific project (filter is NOT a core filter),
-        // and the task was moved OUT of that project (newProjectName is different or empty),
-        // we should reset the filter to 'Inbox' so the task doesn't disappear completely.
-        
-        const coreFilters = ['Inbox', 'Today', 'This Week'];
-
-        if (!coreFilters.includes(this.currentFilter) && this.currentFilter !== newProjectName) {
-            // If the current filter is a project name AND the task was moved away from it,
-            // switch the filter to 'Inbox' to reset the view.
-            this.setFilter('Inbox');
-            
-            // Note: setFilter calls render() internally, so we skip the next line.
-            return; 
-        }
-
-        // 4. If filter hasn't changed, just re-render the current view
-        this.taskListView.render();
-    }
 
     renderSidebar = () => {
         const projectListElement = document.querySelector('.project-list');
@@ -162,6 +134,7 @@ export class TaskController {
         
             const span = document.createElement('span');
             span.textContent = project;
+            span.classList.add('project-name-display');
         
             const deleteBtn = document.createElement('button');
             deleteBtn.textContent = 'X';
@@ -174,7 +147,7 @@ export class TaskController {
     
         // Re-bind the click listeners for the new project spans
         this.renderProjectDropdown();
-        this.bindEvents();
+        //this.bindEvents();
     }
 
     handleDeleteProject = (projectName) => {
@@ -207,16 +180,16 @@ export class TaskController {
         if (!newTitle) {
             return;
         }
+        
+        // 1. Perform the update
         this.taskManager.updateTask(id, newTitle, newPriority, newDueDate, newProjectName);
+        
+        // 2. Clear editing state
         this.editingTaskId = null;
 
-        const coreFilters = ['Inbox', 'Today', 'This Week'];
+        this.setFilter('All Tasks');
 
-        if (!coreFilters.includes(this.currentFilter) && this.currentFilter !== newProjectName) {
-            this.setFilter('Inbox');
-            return;
-        }
-        this.taskListView.render();
+        return;
     }
 
     triggerRender(id = null){
@@ -235,6 +208,7 @@ export class TaskController {
     }
 
     setFilter(filterName){
+        console.log('SET FILTER CALLED:', filterName)
         this.currentFilter = filterName;
         this.editingTaskId = null;
 
