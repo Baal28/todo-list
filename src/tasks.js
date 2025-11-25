@@ -1,12 +1,13 @@
 //tasks.js
 //The primary responsibility of this class is to manage the state of a single to-do item.
 export class Task {
-    constructor(title, priority = 'Medium', dueDate = null) {
+    constructor(title, priority = 'Medium', dueDate = null, projectName = null) {
         this.title = title;
         this.isComplete = false;
         this.id = this.generateId();
         this.priority = priority;
         this.dueDate = dueDate;
+        this.projectName = projectName;
     }
 
     toggleCompletion(){
@@ -18,11 +19,15 @@ export class Task {
     }
 
     static fromData(data){
-        const task = new Task(data.title);
+        const task = new Task(
+            data.title,
+            data.priority || 'Medium',
+            data.dueDate || null,
+            data.projectName || null,
+        );
         task.isComplete = data.isComplete;
         task.id = data.id;
-        task.priority = data.priority || 'Medium';
-        task.dueDate = data.dueDate || null ;
+    
         return task
     }
 }

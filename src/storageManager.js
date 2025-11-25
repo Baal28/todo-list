@@ -8,4 +8,12 @@ export class LocalStorageManager {
     saveTasks(tasks){
         localStorage.setItem('todo-tasks', JSON.stringify(tasks));
     }
+
+    saveProjects(projects){
+        localStorage.setItem('projects', JSON.stringify(projects));
+    }
+
+    loadProjects(){
+        return JSON.parse(localStorage.getItem('projects'));
+    }
 }

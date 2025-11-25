@@ -19,7 +19,7 @@ export class TaskItemView {
             listItem.classList.add('completed');
         }
 
-        // 🚨 CRITICAL FIX: Check the Controller's persistent state (editingTaskId)
+        // Check the Controller's persistent state (editingTaskId)
         // If the task's ID matches the ID stored in the controller, render the edit form.
         if (this.taskController.editingTaskId === this.task.id) {
             listItem.appendChild(this.createEditForm());
@@ -102,6 +102,39 @@ export class TaskItemView {
         return fragment;
     }
 
+    createProjectSelect() {
+        // Access projects list via the Controller's TaskManager
+        const projects = this.taskController.taskManager.getProjects();
+        
+        const select = document.createElement('select');
+        select.name = 'project'; // CRITICAL: Used in the form handler
+        select.classList.add('edit-project-select');
+
+        // 1. Add 'Inbox / No Project' option
+        let defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = 'Inbox / No Project';
+        select.appendChild(defaultOption);
+
+        // 2. Add all project options
+        projects.forEach(project => {
+            let option = document.createElement('option');
+            option.value = project;
+            option.textContent = project;
+            select.appendChild(option);
+        });
+
+        // 3. Pre-select the task's current project
+        // Use the task's current projectName (or '') to set the selected option
+        if (this.task.projectName) {
+            select.value = this.task.projectName;
+        } else {
+            select.value = ''; // Ensures "Inbox" is selected if no project is assigned
+        }
+        
+        return select;
+    }
+
     createEditForm() {
         // We use a form element to easily capture all input values on submit
         const editForm = document.createElement('form');
@@ -138,6 +171,8 @@ export class TaskItemView {
         dateInput.setAttribute('name', 'dueDate');
         dateInput.value = this.task.dueDate || ''; // Populate with current date
 
+        const projectSelect = this.createProjectSelect();
+
         // --- 4. Controls (Save/Cancel Buttons) ---
         const saveBtn = document.createElement('button');
         saveBtn.setAttribute('type', 'submit');
@@ -158,9 +193,10 @@ export class TaskItemView {
             const newTitle = e.target.elements.title.value;
             const newPriority = e.target.elements.priority.value;
             const newDueDate = e.target.elements.dueDate.value;
+            const newProjectName = projectSelect.value;
         
             // 🚨 CRITICAL: Call the Controller's update handler
-            this.onUpdateCallback(this.task.id, newTitle, newPriority, newDueDate);
+            this.onUpdateCallback(this.task.id, newTitle, newPriority, newDueDate, newProjectName);
 
             // Reset the view state after save is initiated
             this.isEditing = false;
@@ -181,6 +217,7 @@ export class TaskItemView {
         inputGroup.appendChild(titleInput);
         inputGroup.appendChild(prioritySelect);
         inputGroup.appendChild(dateInput);
+        inputGroup.appendChild(projectSelect);
 
         const buttonGroup = document.createElement('div');
         buttonGroup.classList.add('edit-button-group');
